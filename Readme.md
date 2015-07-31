@@ -14,7 +14,7 @@ Add a short description here. You can also add a screenshot if needed.
 Add it in your main thelia composer.json file
 
 ```
-composer require your-vendor/insee-geo-module:~1.0
+composer require thelia/insee-geo-module:~1.0
 ```
 
 ## Usage

@@ -1,5 +1,5 @@
 {
-  "name": "your-vendor/insee-geo-module",
+  "name": "thelia/insee-geo-module",
   "license": "LGPL-3.0+",
   "type": "thelia-module",
   "require": {
