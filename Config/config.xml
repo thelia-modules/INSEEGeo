@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config xmlns="http://thelia.net/schema/dic/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://thelia.net/schema/dic/config http://thelia.net/schema/dic/config/thelia-1.0.xsd">
+    <loops>
+        <loop name="insee.geo.region" class="INSEEGeo\Loop\RegionLoop" />
+        <loop name="insee.geo.departement" class="INSEEGeo\Loop\DepLoop" />
+    </loops>
+
+    <services>
+        <!-- Handler declaration -->
+        <service id="insee_geo.handler.insee_geo" class="INSEEGeo\Handler\INSEEGeoHandler">
+
+        </service>
+
+        <!-- Form type declaration -->
+        <service id="insee_geo.form.type.select_city" class="INSEEGeo\Form\Type\SelectCityFormType">
+            <tag name="thelia.form.type" alias="insee_geo_select_city"/>
+        </service>
+
+        <service id="insee_geo.form.type.select_city" class="INSEEGeo\Form\Type\SelectCityFormType">
+            <tag name="thelia.form.type" alias="insee_geo_select_city"/>
+        </service>
+    </services>
+
+    <hooks>
+        <hook id="inseegeo.hook.front" class="INSEEGeo\Hook\FrontHook" scope="request">
+            <tag name="hook.event_listener" event="insee_geo.front.insert_select_city" type="front" method="insertSelectCity" />
+        </hook>
+    </hooks>
+</config>
