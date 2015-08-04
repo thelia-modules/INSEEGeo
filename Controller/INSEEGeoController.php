@@ -26,9 +26,7 @@ class INSEEGeoController extends BaseFrontController
 
     public function getCityByZip($zipCode)
     {
-        // vérification ajax
-
-        // récupération des données
+        // get data
         $result = $this->getINSEEGeoHandler()->getCityByZipCode($zipCode);
 
         $response = array();
@@ -38,7 +36,7 @@ class INSEEGeoController extends BaseFrontController
             $response[$res->getId()] = $res->getName();
         }
 
-        // retour format JSON
+        // retrun JSON format
         return new JsonResponse($response);
 
     }

@@ -13,19 +13,15 @@
 namespace INSEEGeo\Form\Type;
 
 use INSEEGeo\INSEEGeo;
-use INSEEGeo\Model\InseeGeoMunicipalityI18nQuery;
 use INSEEGeo\Model\InseeGeoMunicipalityQuery;
 use INSEEGeo\Model\Map\InseeGeoMunicipalityI18nTableMap;
 use INSEEGeo\Model\Map\InseeGeoMunicipalityTableMap;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Component\Validator\Constraints\Blank;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\ExecutionContextInterface;
 use Thelia\Core\Translation\Translator;
-use Thelia\Model\LangQuery;
 
 /**
  * Class SelectCityFormType

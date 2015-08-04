@@ -12,7 +12,6 @@
 
 namespace INSEEGeo\Handler;
 
-use INSEEGeo\Model\InseeGeoMunicipality;
 use INSEEGeo\Model\InseeGeoMunicipalityQuery;
 
 /**
