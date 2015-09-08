@@ -8,4 +8,7 @@
         <default key="_controller">INSEEGeo\Controller\INSEEGeoController::getCityByZip</default>
     </route>
 
+    <route id="insee_geo.municipality.by_all" path="/inseegeo/city/{zipcode}/{name}">
+        <default key="_controller">INSEEGeo\Controller\INSEEGeoController::getCities</default>
+    </route>
 </routes>

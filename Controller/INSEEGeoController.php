@@ -41,6 +41,24 @@ class INSEEGeoController extends BaseFrontController
 
     }
 
+    public function getCities($zipcode, $name)
+    {
+        // vérification ajax
+
+        // récupération des données
+        $result = $this->getINSEEGeoHandler()->getCities($zipcode, $name);
+
+        $response = array();
+        /** @var \INSEEGeo\Model\INSEEGeoMunicipality $res */
+        foreach ($result as $res) {
+            $res->setLocale(Translator::getInstance()->getLocale());
+            $response[] = $res->getName();
+        }
+
+        // retour format JSON
+        return new JsonResponse($response);
+    }
+
     /** @var  \INSEEGeo\Handler\INSEEGeoHandler */
     protected $inseeGeoHandler;
 
