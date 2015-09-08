@@ -28,4 +28,13 @@ class INSEEGeoHandler
         return $query->findByZipCode($zipCode);
     }
 
+    public function getCities($zipcode, $name)
+    {
+        $query = InseeGeoMunicipalityQuery::create()
+            ->useInseeGeoMunicipalityI18nQuery()
+            ->filterByName("*".$name."*")
+            ->endUse();
+        return $query->findByZipCode($zipcode);
+    }
+
 }
