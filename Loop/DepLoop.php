@@ -24,6 +24,8 @@ use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 /**
  * Class DepLoop
  * @package INSEEGeo\Loop
+ *
+ * @method getId
  */
 class DepLoop extends BaseI18nLoop implements PropelSearchLoopInterface
 {
@@ -40,8 +42,14 @@ class DepLoop extends BaseI18nLoop implements PropelSearchLoopInterface
 
         $this->configureI18nProcessing($search, ['name']);
 
-        $id = $this->getId();
-        if ($id !== null) {
+        $ids = $this->getId();
+        if ($ids !== null) {
+            // test pour les id de 1 à 9
+            foreach( $ids as &$id){
+                if (sizeof($id) == 1){
+                    $id = '0'.$id;
+                }
+            }
             $search->filterById($id);
         }
 
