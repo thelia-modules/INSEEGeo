@@ -72,7 +72,7 @@ There are 2 loops :
 
 # INSEE Geo
 
-Ajoute les tables insee_geo_department, insee_geo_municopality et insee_geo_region pour la toute la France.
+Ajoute les tables insee_geo_department, insee_geo_municipality et insee_geo_region pour la toute la France.
 Fournit des hook sur les départements et les régions (avant 1er janvier 2016).
 
 ## Installation
