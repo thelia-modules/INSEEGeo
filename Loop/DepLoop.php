@@ -48,7 +48,7 @@ class DepLoop extends BaseI18nLoop implements PropelSearchLoopInterface
             foreach( $ids as &$id){
                 $id = str_pad($id, 2, '0', STR_PAD_LEFT);
             }
-            $search->filterById($id);
+            $search->filterById($ids);
         }
 
         return $search;
