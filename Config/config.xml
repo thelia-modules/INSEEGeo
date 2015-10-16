@@ -16,9 +16,6 @@
             <tag name="thelia.form.type" alias="insee_geo_select_city"/>
         </service>
 
-        <service id="insee_geo.form.type.select_city" class="INSEEGeo\Form\Type\SelectCityFormType">
-            <tag name="thelia.form.type" alias="insee_geo_select_city"/>
-        </service>
     </services>
 
     <hooks>
