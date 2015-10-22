@@ -1,4 +1,6 @@
 <?php
 return array(
-    // 'an english string' => 'La traduction française de la chaine',
+    'city_code' => 'Ville',
+    'zip_code' => 'Code postal',
+
 );

@@ -1,5 +1,5 @@
 
-# INSEEGEAO
+# INSEEGEO
 
 Add insee_geo_department, insee_geo_municipality and insse_geo_region for France.
 Give departments and region hook.

@@ -29,4 +29,9 @@ class FrontHook extends BaseHook
         $event->add($this->render("form/select-city.html", $argument));
     }
 
+    public function insertJSSelectCity(HookRenderEvent $event)
+    {
+        $event->add($this->addJS("form/select-city.js"));
+    }
+
 }

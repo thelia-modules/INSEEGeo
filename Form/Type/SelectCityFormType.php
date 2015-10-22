@@ -18,6 +18,8 @@ use INSEEGeo\Model\Map\InseeGeoMunicipalityI18nTableMap;
 use INSEEGeo\Model\Map\InseeGeoMunicipalityTableMap;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\ExecutionContextInterface;
@@ -40,18 +42,14 @@ class SelectCityFormType extends AbstractType
         $this->translator = $translator = Translator::getInstance();
         $this->locale = $translator->getLocale();
 
-        $zip_label = (isset($options['label']['zip']))
-            ? $options['label']['zip']
-            : $translator->trans('zip_code',[], INSEEGeo::DOMAIN_NAME);
-        $zip_label_attr_for = (isset($options['label_attr']['for']['zip']))
-            ? $options['label_attr']['for']['zip']
-            : 'city_zip_code';
-        $city_label = (isset($options['label']['city']))
-            ? $options['label']['city']
-            : $translator->trans('city_code',[], INSEEGeo::DOMAIN_NAME);
-        $city_label_attr_for = (isset($options['label_attr']['for']['city']))
-            ? $options['label_attr']['for']['zip']
-            : 'city_zip_code';
+        $zip_label = $translator->trans('zip_code',[], INSEEGeo::DOMAIN_NAME);
+        $zip_label_attr_for = 'city_zip_code';
+        $city_label = $translator->trans('city_code',[], INSEEGeo::DOMAIN_NAME);
+        $city_label_attr_for = 'city_city_code';
+
+        $validationGroups = (isset($options['validation_groups']))
+            ? $options['validation_groups']
+            : ['Default'];
 
         $builder
             ->add('city_zip_code', 'text', array(
@@ -59,9 +57,9 @@ class SelectCityFormType extends AbstractType
                 'label_attr' => ['for' => $zip_label_attr_for],
                 'required' => true,
                 'constraints' => array(
-                    new NotBlank(array("groups" => ['create', 'update'])),
+                    new NotBlank(array("groups" => $validationGroups)),
                     new Callback([
-                        "groups" => ['create', 'update'],
+                        "groups" => $validationGroups,
                         "methods" => array(
                             [$this, 'checkZipCode']
                         )
@@ -73,9 +71,9 @@ class SelectCityFormType extends AbstractType
                 'label_attr' => ['for' => $city_label_attr_for],
                 'required' => true,
                 'constraints' => array(
-                    new NotBlank(array("groups" => ['create', 'update'])),
+                    new NotBlank(array("groups" => $validationGroups)),
                     new Callback([
-                        "groups" => ['create', 'update'],
+                        "groups" => $validationGroups,
                         "methods" => array(
                             [$this, 'checkCityName']
                         )

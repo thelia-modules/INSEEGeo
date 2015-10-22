@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-sm-6">
-        {form_field form=$form field="{$formField}.city_zip_code"}
-            <div class="form-group">
+        {form_field form=$form field="{$formField}.city_zip_code"}{debug}
+            <div class="form-group {if $error} has-error{/if}">
                 <label class="control-label"
                        for="{$label_attr.for}">{$label}{if $required}{intl l='*'}{/if}</label>
 
@@ -11,11 +11,10 @@
     </div>
     <div class="col-sm-6">
         {form_field form=$form field="{$formField}.city_name"}
-            <div class="form-group">
+            <div class="form-group {if $error} has-error{/if}">
                 <label class="control-label"
                        for="{$label_attr.for}">{$label}{if $required}{intl l='*'}{/if}</label>
 
-                {*<input id="{$label_attr_for}" class="form-control" name="{$name}" placeholder="63113"/>*}
                 <select class="form-control city-name" id="{$label_attr.for}" name="{$name}" data-selected="{$value}">
                     {foreach from=$choices item=item}
                         <option value="{$item->value}"
@@ -27,7 +26,3 @@
         {/form_field}
     </div>
 </div>
-
-<script>
-
-</script>

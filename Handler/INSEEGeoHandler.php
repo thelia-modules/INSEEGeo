@@ -22,16 +22,40 @@ use INSEEGeo\Model\InseeGeoMunicipalityQuery;
 class INSEEGeoHandler
 {
 
+    /**
+     * @param $zipCode
+     *
+     * @return array
+     */
     public function getCityByZipCode($zipCode)
     {
         $query = InseeGeoMunicipalityQuery::create();
         return $query->findByZipCode($zipCode);
     }
 
+    /**
+     * @param $id       String  City id, this is insee code.
+     * @param $locale
+     *
+     * @return \INSEEGeo\Model\InseeGeoMunicipality
+     */
+    public function getOneCityById($id, $locale)
+    {
+        $query = InseeGeoMunicipalityQuery::create();
+        $query->useI18nQuery($locale)->endUse();
+        return $query->findOneById($id)->setLocale($locale);
+    }
+
+    /**
+     * @param $zipcode
+     * @param $name
+     *
+     * @return array
+     */
     public function getCities($zipcode, $name)
     {
-        $query = InseeGeoMunicipalityQuery::create()
-            ->useInseeGeoMunicipalityI18nQuery()
+        $query = InseeGeoMunicipalityQuery::create();
+        $query->useInseeGeoMunicipalityI18nQuery()
             ->filterByName("*".$name."*")
             ->endUse();
         return $query->findByZipCode($zipcode);

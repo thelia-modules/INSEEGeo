@@ -21,6 +21,7 @@
     <hooks>
         <hook id="inseegeo.hook.front" class="INSEEGeo\Hook\FrontHook" scope="request">
             <tag name="hook.event_listener" event="insee_geo.front.insert_select_city" type="front" method="insertSelectCity" />
+            <tag name="hook.event_listener" event="insee_geo.javascript_initialization_front.insert_select_city" type="front" method="insertJSSelectCity" />
         </hook>
     </hooks>
 </config>
