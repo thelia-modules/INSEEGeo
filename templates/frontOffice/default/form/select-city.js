@@ -28,7 +28,7 @@
             }
         };
 
-        var $form = $("form");
+        var $form = $("form").parent();
 
 
         $form.on('change', ".zip-code", function () {
