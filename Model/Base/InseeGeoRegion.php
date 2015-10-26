@@ -69,7 +69,7 @@ abstract class InseeGeoRegion implements ActiveRecordInterface
 
     /**
      * The value for the prefecture_id field.
-     * @var        int
+     * @var        string
      */
     protected $prefecture_id;
 
@@ -415,7 +415,7 @@ abstract class InseeGeoRegion implements ActiveRecordInterface
     /**
      * Get the [prefecture_id] column value.
      *
-     * @return   int
+     * @return   string
      */
     public function getPrefectureId()
     {
@@ -487,13 +487,13 @@ abstract class InseeGeoRegion implements ActiveRecordInterface
     /**
      * Set the value of [prefecture_id] column.
      *
-     * @param      int $v new value
+     * @param      string $v new value
      * @return   \INSEEGeo\Model\InseeGeoRegion The current object (for fluent API support)
      */
     public function setPrefectureId($v)
     {
         if ($v !== null) {
-            $v = (int) $v;
+            $v = (string) $v;
         }
 
         if ($this->prefecture_id !== $v) {
@@ -588,7 +588,7 @@ abstract class InseeGeoRegion implements ActiveRecordInterface
             $this->id = (null !== $col) ? (int) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : InseeGeoRegionTableMap::translateFieldName('PrefectureId', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->prefecture_id = (null !== $col) ? (int) $col : null;
+            $this->prefecture_id = (null !== $col) ? (string) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : InseeGeoRegionTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
@@ -909,7 +909,7 @@ abstract class InseeGeoRegion implements ActiveRecordInterface
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
                     case 'PREFECTURE_ID':
-                        $stmt->bindValue($identifier, $this->prefecture_id, PDO::PARAM_INT);
+                        $stmt->bindValue($identifier, $this->prefecture_id, PDO::PARAM_STR);
                         break;
                     case 'CREATED_AT':
                         $stmt->bindValue($identifier, $this->created_at ? $this->created_at->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);

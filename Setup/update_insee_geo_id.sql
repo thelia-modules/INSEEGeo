@@ -1,10 +1,12 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
+-- Department table update
 -- Update de le table department
 UPDATE `insee_geo_department`
 SET `region_id` = concat('0',`region_id`)
 WHERE LENGTH(`region_id`) = 1;
 
+-- region table update
 -- Update de le table region
 UPDATE `insee_geo_region`
 SET `id` = concat('0',`id`)
@@ -13,11 +15,13 @@ UPDATE `insee_geo_region`
 SET `prefecture_id` = concat('0',`prefecture_id`)
 WHERE LENGTH(`prefecture_id`) = 4;
 
+-- region i18n  table update
 -- Update de la table region i18n
 UPDATE `insee_geo_region_i18n`
 SET `id` = concat('0',`id`)
 WHERE LENGTH(`id`) = 1;
 
+-- municipality  table update
 -- Update de le table municipality
 UPDATE `insee_geo_municipality`
 SET `id` = concat('0',`id`)
@@ -32,7 +36,8 @@ UPDATE `insee_geo_municipality`
 SET `region_id` = concat('0',`region_id`)
 WHERE LENGTH(`region_id`) = 1;
 
--- Update de la table region i18n
+-- municipality i18n  table update
+-- Update de la table municipality i18n
 UPDATE `insee_geo_municipality_i18n`
 SET `id` = concat('0',`id`)
 WHERE LENGTH(`id`) = 4;

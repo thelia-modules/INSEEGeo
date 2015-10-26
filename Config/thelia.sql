@@ -12,7 +12,7 @@ DROP TABLE IF EXISTS `insee_geo_region`;
 CREATE TABLE `insee_geo_region`
 (
     `id` INTEGER NOT NULL,
-    `prefecture_id` INTEGER,
+    `prefecture_id` VARCHAR(5),
     `created_at` DATETIME,
     `updated_at` DATETIME,
     PRIMARY KEY (`id`)
