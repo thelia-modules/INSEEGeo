@@ -151,7 +151,7 @@ class InseeGeoRegionTableMap extends TableMap
         $this->setUseIdGenerator(false);
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
-        $this->addColumn('PREFECTURE_ID', 'PrefectureId', 'INTEGER', false, null, null);
+        $this->addColumn('PREFECTURE_ID', 'PrefectureId', 'VARCHAR', false, 5, null);
         $this->addColumn('CREATED_AT', 'CreatedAt', 'TIMESTAMP', false, null, null);
         $this->addColumn('UPDATED_AT', 'UpdatedAt', 'TIMESTAMP', false, null, null);
     } // initialize()
