@@ -52,12 +52,12 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildInseeGeoRegion findOneOrCreate(ConnectionInterface $con = null) Return the first ChildInseeGeoRegion matching the query, or a new ChildInseeGeoRegion object populated from the query conditions when no match is found
  *
  * @method     ChildInseeGeoRegion findOneById(int $id) Return the first ChildInseeGeoRegion filtered by the id column
- * @method     ChildInseeGeoRegion findOneByPrefectureId(int $prefecture_id) Return the first ChildInseeGeoRegion filtered by the prefecture_id column
+ * @method     ChildInseeGeoRegion findOneByPrefectureId(string $prefecture_id) Return the first ChildInseeGeoRegion filtered by the prefecture_id column
  * @method     ChildInseeGeoRegion findOneByCreatedAt(string $created_at) Return the first ChildInseeGeoRegion filtered by the created_at column
  * @method     ChildInseeGeoRegion findOneByUpdatedAt(string $updated_at) Return the first ChildInseeGeoRegion filtered by the updated_at column
  *
  * @method     array findById(int $id) Return ChildInseeGeoRegion objects filtered by the id column
- * @method     array findByPrefectureId(int $prefecture_id) Return ChildInseeGeoRegion objects filtered by the prefecture_id column
+ * @method     array findByPrefectureId(string $prefecture_id) Return ChildInseeGeoRegion objects filtered by the prefecture_id column
  * @method     array findByCreatedAt(string $created_at) Return ChildInseeGeoRegion objects filtered by the created_at column
  * @method     array findByUpdatedAt(string $updated_at) Return ChildInseeGeoRegion objects filtered by the updated_at column
  *
@@ -283,36 +283,24 @@ abstract class InseeGeoRegionQuery extends ModelCriteria
      *
      * Example usage:
      * <code>
-     * $query->filterByPrefectureId(1234); // WHERE prefecture_id = 1234
-     * $query->filterByPrefectureId(array(12, 34)); // WHERE prefecture_id IN (12, 34)
-     * $query->filterByPrefectureId(array('min' => 12)); // WHERE prefecture_id > 12
+     * $query->filterByPrefectureId('fooValue');   // WHERE prefecture_id = 'fooValue'
+     * $query->filterByPrefectureId('%fooValue%'); // WHERE prefecture_id LIKE '%fooValue%'
      * </code>
      *
-     * @param     mixed $prefectureId The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $prefectureId The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildInseeGeoRegionQuery The current query, for fluid interface
      */
     public function filterByPrefectureId($prefectureId = null, $comparison = null)
     {
-        if (is_array($prefectureId)) {
-            $useMinMax = false;
-            if (isset($prefectureId['min'])) {
-                $this->addUsingAlias(InseeGeoRegionTableMap::PREFECTURE_ID, $prefectureId['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($prefectureId['max'])) {
-                $this->addUsingAlias(InseeGeoRegionTableMap::PREFECTURE_ID, $prefectureId['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
+        if (null === $comparison) {
+            if (is_array($prefectureId)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $prefectureId)) {
+                $prefectureId = str_replace('*', '%', $prefectureId);
+                $comparison = Criteria::LIKE;
             }
         }
 

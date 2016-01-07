@@ -72,7 +72,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildInseeGeoMunicipality findOneByGeoShape(string $geo_shape) Return the first ChildInseeGeoMunicipality filtered by the geo_shape column
  * @method     ChildInseeGeoMunicipality findOneByMunicipalityCode(int $municipality_code) Return the first ChildInseeGeoMunicipality filtered by the municipality_code column
  * @method     ChildInseeGeoMunicipality findOneByDistrictCode(int $district_code) Return the first ChildInseeGeoMunicipality filtered by the district_code column
- * @method     ChildInseeGeoMunicipality findOneByDepartmentId(string $department_id) Return the first ChildInseeGeoMunicipality filtered by the department_id column
+ * @method     ChildInseeGeoMunicipality findOneByDepartmentId(int $department_id) Return the first ChildInseeGeoMunicipality filtered by the department_id column
  * @method     ChildInseeGeoMunicipality findOneByRegionId(int $region_id) Return the first ChildInseeGeoMunicipality filtered by the region_id column
  * @method     ChildInseeGeoMunicipality findOneByCreatedAt(string $created_at) Return the first ChildInseeGeoMunicipality filtered by the created_at column
  * @method     ChildInseeGeoMunicipality findOneByUpdatedAt(string $updated_at) Return the first ChildInseeGeoMunicipality filtered by the updated_at column
@@ -84,7 +84,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     array findByGeoShape(string $geo_shape) Return ChildInseeGeoMunicipality objects filtered by the geo_shape column
  * @method     array findByMunicipalityCode(int $municipality_code) Return ChildInseeGeoMunicipality objects filtered by the municipality_code column
  * @method     array findByDistrictCode(int $district_code) Return ChildInseeGeoMunicipality objects filtered by the district_code column
- * @method     array findByDepartmentId(string $department_id) Return ChildInseeGeoMunicipality objects filtered by the department_id column
+ * @method     array findByDepartmentId(int $department_id) Return ChildInseeGeoMunicipality objects filtered by the department_id column
  * @method     array findByRegionId(int $region_id) Return ChildInseeGeoMunicipality objects filtered by the region_id column
  * @method     array findByCreatedAt(string $created_at) Return ChildInseeGeoMunicipality objects filtered by the created_at column
  * @method     array findByUpdatedAt(string $updated_at) Return ChildInseeGeoMunicipality objects filtered by the updated_at column
@@ -521,24 +521,38 @@ abstract class InseeGeoMunicipalityQuery extends ModelCriteria
      *
      * Example usage:
      * <code>
-     * $query->filterByDepartmentId('fooValue');   // WHERE department_id = 'fooValue'
-     * $query->filterByDepartmentId('%fooValue%'); // WHERE department_id LIKE '%fooValue%'
+     * $query->filterByDepartmentId(1234); // WHERE department_id = 1234
+     * $query->filterByDepartmentId(array(12, 34)); // WHERE department_id IN (12, 34)
+     * $query->filterByDepartmentId(array('min' => 12)); // WHERE department_id > 12
      * </code>
      *
-     * @param     string $departmentId The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
+     * @see       filterByInseeGeoDepartment()
+     *
+     * @param     mixed $departmentId The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildInseeGeoMunicipalityQuery The current query, for fluid interface
      */
     public function filterByDepartmentId($departmentId = null, $comparison = null)
     {
-        if (null === $comparison) {
-            if (is_array($departmentId)) {
+        if (is_array($departmentId)) {
+            $useMinMax = false;
+            if (isset($departmentId['min'])) {
+                $this->addUsingAlias(InseeGeoMunicipalityTableMap::DEPARTMENT_ID, $departmentId['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($departmentId['max'])) {
+                $this->addUsingAlias(InseeGeoMunicipalityTableMap::DEPARTMENT_ID, $departmentId['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $departmentId)) {
-                $departmentId = str_replace('*', '%', $departmentId);
-                $comparison = Criteria::LIKE;
             }
         }
 

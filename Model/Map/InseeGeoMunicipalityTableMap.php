@@ -192,7 +192,7 @@ class InseeGeoMunicipalityTableMap extends TableMap
         $this->addColumn('GEO_SHAPE', 'GeoShape', 'LONGVARCHAR', false, null, null);
         $this->addColumn('MUNICIPALITY_CODE', 'MunicipalityCode', 'INTEGER', false, null, null);
         $this->addColumn('DISTRICT_CODE', 'DistrictCode', 'INTEGER', false, null, null);
-        $this->addForeignKey('DEPARTMENT_ID', 'DepartmentId', 'VARCHAR', 'insee_geo_department', 'ID', false, 2, null);
+        $this->addForeignKey('DEPARTMENT_ID', 'DepartmentId', 'INTEGER', 'insee_geo_department', 'ID', false, null, null);
         $this->addForeignKey('REGION_ID', 'RegionId', 'INTEGER', 'insee_geo_region', 'ID', false, null, null);
         $this->addColumn('CREATED_AT', 'CreatedAt', 'TIMESTAMP', false, null, null);
         $this->addColumn('UPDATED_AT', 'UpdatedAt', 'TIMESTAMP', false, null, null);

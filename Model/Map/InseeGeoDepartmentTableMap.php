@@ -58,7 +58,7 @@ class InseeGeoDepartmentTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 8;
+    const NUM_COLUMNS = 9;
 
     /**
      * The number of lazy-loaded columns
@@ -68,12 +68,17 @@ class InseeGeoDepartmentTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 8;
+    const NUM_HYDRATE_COLUMNS = 9;
 
     /**
      * the column name for the ID field
      */
     const ID = 'insee_geo_department.ID';
+
+    /**
+     * the column name for the INSEE_CODE field
+     */
+    const INSEE_CODE = 'insee_geo_department.INSEE_CODE';
 
     /**
      * the column name for the MAIN_MUNICIPALITY_ID field
@@ -131,12 +136,12 @@ class InseeGeoDepartmentTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'MainMunicipalityId', 'RegionId', 'GeoPoint2dX', 'GeoPoint2dY', 'GeoShape', 'CreatedAt', 'UpdatedAt', ),
-        self::TYPE_STUDLYPHPNAME => array('id', 'mainMunicipalityId', 'regionId', 'geoPoint2dX', 'geoPoint2dY', 'geoShape', 'createdAt', 'updatedAt', ),
-        self::TYPE_COLNAME       => array(InseeGeoDepartmentTableMap::ID, InseeGeoDepartmentTableMap::MAIN_MUNICIPALITY_ID, InseeGeoDepartmentTableMap::REGION_ID, InseeGeoDepartmentTableMap::GEO_POINT2D_X, InseeGeoDepartmentTableMap::GEO_POINT2D_Y, InseeGeoDepartmentTableMap::GEO_SHAPE, InseeGeoDepartmentTableMap::CREATED_AT, InseeGeoDepartmentTableMap::UPDATED_AT, ),
-        self::TYPE_RAW_COLNAME   => array('ID', 'MAIN_MUNICIPALITY_ID', 'REGION_ID', 'GEO_POINT2D_X', 'GEO_POINT2D_Y', 'GEO_SHAPE', 'CREATED_AT', 'UPDATED_AT', ),
-        self::TYPE_FIELDNAME     => array('id', 'main_municipality_id', 'region_id', 'geo_point2d_x', 'geo_point2d_y', 'geo_shape', 'created_at', 'updated_at', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
+        self::TYPE_PHPNAME       => array('Id', 'InseeCode', 'MainMunicipalityId', 'RegionId', 'GeoPoint2dX', 'GeoPoint2dY', 'GeoShape', 'CreatedAt', 'UpdatedAt', ),
+        self::TYPE_STUDLYPHPNAME => array('id', 'inseeCode', 'mainMunicipalityId', 'regionId', 'geoPoint2dX', 'geoPoint2dY', 'geoShape', 'createdAt', 'updatedAt', ),
+        self::TYPE_COLNAME       => array(InseeGeoDepartmentTableMap::ID, InseeGeoDepartmentTableMap::INSEE_CODE, InseeGeoDepartmentTableMap::MAIN_MUNICIPALITY_ID, InseeGeoDepartmentTableMap::REGION_ID, InseeGeoDepartmentTableMap::GEO_POINT2D_X, InseeGeoDepartmentTableMap::GEO_POINT2D_Y, InseeGeoDepartmentTableMap::GEO_SHAPE, InseeGeoDepartmentTableMap::CREATED_AT, InseeGeoDepartmentTableMap::UPDATED_AT, ),
+        self::TYPE_RAW_COLNAME   => array('ID', 'INSEE_CODE', 'MAIN_MUNICIPALITY_ID', 'REGION_ID', 'GEO_POINT2D_X', 'GEO_POINT2D_Y', 'GEO_SHAPE', 'CREATED_AT', 'UPDATED_AT', ),
+        self::TYPE_FIELDNAME     => array('id', 'insee_code', 'main_municipality_id', 'region_id', 'geo_point2d_x', 'geo_point2d_y', 'geo_shape', 'created_at', 'updated_at', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, )
     );
 
     /**
@@ -146,12 +151,12 @@ class InseeGeoDepartmentTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'MainMunicipalityId' => 1, 'RegionId' => 2, 'GeoPoint2dX' => 3, 'GeoPoint2dY' => 4, 'GeoShape' => 5, 'CreatedAt' => 6, 'UpdatedAt' => 7, ),
-        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'mainMunicipalityId' => 1, 'regionId' => 2, 'geoPoint2dX' => 3, 'geoPoint2dY' => 4, 'geoShape' => 5, 'createdAt' => 6, 'updatedAt' => 7, ),
-        self::TYPE_COLNAME       => array(InseeGeoDepartmentTableMap::ID => 0, InseeGeoDepartmentTableMap::MAIN_MUNICIPALITY_ID => 1, InseeGeoDepartmentTableMap::REGION_ID => 2, InseeGeoDepartmentTableMap::GEO_POINT2D_X => 3, InseeGeoDepartmentTableMap::GEO_POINT2D_Y => 4, InseeGeoDepartmentTableMap::GEO_SHAPE => 5, InseeGeoDepartmentTableMap::CREATED_AT => 6, InseeGeoDepartmentTableMap::UPDATED_AT => 7, ),
-        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'MAIN_MUNICIPALITY_ID' => 1, 'REGION_ID' => 2, 'GEO_POINT2D_X' => 3, 'GEO_POINT2D_Y' => 4, 'GEO_SHAPE' => 5, 'CREATED_AT' => 6, 'UPDATED_AT' => 7, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'main_municipality_id' => 1, 'region_id' => 2, 'geo_point2d_x' => 3, 'geo_point2d_y' => 4, 'geo_shape' => 5, 'created_at' => 6, 'updated_at' => 7, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'InseeCode' => 1, 'MainMunicipalityId' => 2, 'RegionId' => 3, 'GeoPoint2dX' => 4, 'GeoPoint2dY' => 5, 'GeoShape' => 6, 'CreatedAt' => 7, 'UpdatedAt' => 8, ),
+        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'inseeCode' => 1, 'mainMunicipalityId' => 2, 'regionId' => 3, 'geoPoint2dX' => 4, 'geoPoint2dY' => 5, 'geoShape' => 6, 'createdAt' => 7, 'updatedAt' => 8, ),
+        self::TYPE_COLNAME       => array(InseeGeoDepartmentTableMap::ID => 0, InseeGeoDepartmentTableMap::INSEE_CODE => 1, InseeGeoDepartmentTableMap::MAIN_MUNICIPALITY_ID => 2, InseeGeoDepartmentTableMap::REGION_ID => 3, InseeGeoDepartmentTableMap::GEO_POINT2D_X => 4, InseeGeoDepartmentTableMap::GEO_POINT2D_Y => 5, InseeGeoDepartmentTableMap::GEO_SHAPE => 6, InseeGeoDepartmentTableMap::CREATED_AT => 7, InseeGeoDepartmentTableMap::UPDATED_AT => 8, ),
+        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'INSEE_CODE' => 1, 'MAIN_MUNICIPALITY_ID' => 2, 'REGION_ID' => 3, 'GEO_POINT2D_X' => 4, 'GEO_POINT2D_Y' => 5, 'GEO_SHAPE' => 6, 'CREATED_AT' => 7, 'UPDATED_AT' => 8, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'insee_code' => 1, 'main_municipality_id' => 2, 'region_id' => 3, 'geo_point2d_x' => 4, 'geo_point2d_y' => 5, 'geo_shape' => 6, 'created_at' => 7, 'updated_at' => 8, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, )
     );
 
     /**
@@ -170,7 +175,8 @@ class InseeGeoDepartmentTableMap extends TableMap
         $this->setPackage('INSEEGeo.Model');
         $this->setUseIdGenerator(false);
         // columns
-        $this->addPrimaryKey('ID', 'Id', 'VARCHAR', true, 3, null);
+        $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
+        $this->addColumn('INSEE_CODE', 'InseeCode', 'VARCHAR', true, 5, null);
         $this->addColumn('MAIN_MUNICIPALITY_ID', 'MainMunicipalityId', 'VARCHAR', false, 5, null);
         $this->addForeignKey('REGION_ID', 'RegionId', 'INTEGER', 'insee_geo_region', 'ID', false, null, null);
         $this->addColumn('GEO_POINT2D_X', 'GeoPoint2dX', 'DOUBLE', false, null, null);
@@ -250,7 +256,7 @@ class InseeGeoDepartmentTableMap extends TableMap
     public static function getPrimaryKeyFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
 
-            return (string) $row[
+            return (int) $row[
                             $indexType == TableMap::TYPE_NUM
                             ? 0 + $offset
                             : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
@@ -353,6 +359,7 @@ class InseeGeoDepartmentTableMap extends TableMap
     {
         if (null === $alias) {
             $criteria->addSelectColumn(InseeGeoDepartmentTableMap::ID);
+            $criteria->addSelectColumn(InseeGeoDepartmentTableMap::INSEE_CODE);
             $criteria->addSelectColumn(InseeGeoDepartmentTableMap::MAIN_MUNICIPALITY_ID);
             $criteria->addSelectColumn(InseeGeoDepartmentTableMap::REGION_ID);
             $criteria->addSelectColumn(InseeGeoDepartmentTableMap::GEO_POINT2D_X);
@@ -362,6 +369,7 @@ class InseeGeoDepartmentTableMap extends TableMap
             $criteria->addSelectColumn(InseeGeoDepartmentTableMap::UPDATED_AT);
         } else {
             $criteria->addSelectColumn($alias . '.ID');
+            $criteria->addSelectColumn($alias . '.INSEE_CODE');
             $criteria->addSelectColumn($alias . '.MAIN_MUNICIPALITY_ID');
             $criteria->addSelectColumn($alias . '.REGION_ID');
             $criteria->addSelectColumn($alias . '.GEO_POINT2D_X');

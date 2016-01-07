@@ -12,7 +12,7 @@ DROP TABLE IF EXISTS `insee_geo_region`;
 CREATE TABLE `insee_geo_region`
 (
     `id` INTEGER NOT NULL,
-    `prefecture_id` INTEGER,
+    `prefecture_id` VARCHAR(5),
     `created_at` DATETIME,
     `updated_at` DATETIME,
     PRIMARY KEY (`id`)
@@ -26,7 +26,8 @@ DROP TABLE IF EXISTS `insee_geo_department`;
 
 CREATE TABLE `insee_geo_department`
 (
-    `id` VARCHAR(3) NOT NULL,
+    `id` INTEGER NOT NULL,
+    `insee_code` VARCHAR(5) NOT NULL,
     `main_municipality_id` VARCHAR(5),
     `region_id` INTEGER,
     `geo_point2d_x` DOUBLE,
@@ -58,7 +59,7 @@ CREATE TABLE `insee_geo_municipality`
     `geo_shape` TEXT,
     `municipality_code` INTEGER,
     `district_code` INTEGER,
-    `department_id` VARCHAR(2),
+    `department_id` INTEGER,
     `region_id` INTEGER,
     `created_at` DATETIME,
     `updated_at` DATETIME,
@@ -103,7 +104,7 @@ DROP TABLE IF EXISTS `insee_geo_department_i18n`;
 
 CREATE TABLE `insee_geo_department_i18n`
 (
-    `id` VARCHAR(3) NOT NULL,
+    `id` INTEGER NOT NULL,
     `locale` VARCHAR(5) DEFAULT 'en_US' NOT NULL,
     `name` TEXT NOT NULL,
     PRIMARY KEY (`id`,`locale`),

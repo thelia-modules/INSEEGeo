@@ -16,7 +16,7 @@ Give departments and region hook.
 Add it in your main thelia composer.json file
 
 ```
-composer require thelia/insee-geo-module:~1.0
+composer require thelia/insee-geo-module:~0.1.2
 ```
 
 ## Hook
@@ -87,7 +87,7 @@ Fournit des hook sur les départements et les régions (avant 1er janvier 2016).
 Ajouter le dans le fichier composer.json de Thelia
 
 ```
-composer require thelia/insee-geo-module:~1.0
+composer require thelia/insee-geo-module:~0.1.2
 ```
 
 ## Hook
