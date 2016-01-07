@@ -105,7 +105,7 @@ abstract class InseeGeoMunicipality implements ActiveRecordInterface
 
     /**
      * The value for the department_id field.
-     * @var        string
+     * @var        int
      */
     protected $department_id;
 
@@ -509,7 +509,7 @@ abstract class InseeGeoMunicipality implements ActiveRecordInterface
     /**
      * Get the [department_id] column value.
      *
-     * @return   string
+     * @return   int
      */
     public function getDepartmentId()
     {
@@ -718,13 +718,13 @@ abstract class InseeGeoMunicipality implements ActiveRecordInterface
     /**
      * Set the value of [department_id] column.
      *
-     * @param      string $v new value
+     * @param      int $v new value
      * @return   \INSEEGeo\Model\InseeGeoMunicipality The current object (for fluent API support)
      */
     public function setDepartmentId($v)
     {
         if ($v !== null) {
-            $v = (string) $v;
+            $v = (int) $v;
         }
 
         if ($this->department_id !== $v) {
@@ -866,7 +866,7 @@ abstract class InseeGeoMunicipality implements ActiveRecordInterface
             $this->district_code = (null !== $col) ? (int) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : InseeGeoMunicipalityTableMap::translateFieldName('DepartmentId', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->department_id = (null !== $col) ? (string) $col : null;
+            $this->department_id = (null !== $col) ? (int) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : InseeGeoMunicipalityTableMap::translateFieldName('RegionId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->region_id = (null !== $col) ? (int) $col : null;
@@ -1218,7 +1218,7 @@ abstract class InseeGeoMunicipality implements ActiveRecordInterface
                         $stmt->bindValue($identifier, $this->district_code, PDO::PARAM_INT);
                         break;
                     case 'DEPARTMENT_ID':
-                        $stmt->bindValue($identifier, $this->department_id, PDO::PARAM_STR);
+                        $stmt->bindValue($identifier, $this->department_id, PDO::PARAM_INT);
                         break;
                     case 'REGION_ID':
                         $stmt->bindValue($identifier, $this->region_id, PDO::PARAM_INT);
@@ -1649,7 +1649,7 @@ abstract class InseeGeoMunicipality implements ActiveRecordInterface
      */
     public function getInseeGeoDepartment(ConnectionInterface $con = null)
     {
-        if ($this->aInseeGeoDepartment === null && (($this->department_id !== "" && $this->department_id !== null))) {
+        if ($this->aInseeGeoDepartment === null && ($this->department_id !== null)) {
             $this->aInseeGeoDepartment = ChildInseeGeoDepartmentQuery::create()->findPk($this->department_id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference

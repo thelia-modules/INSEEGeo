@@ -40,11 +40,11 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildInseeGeoDepartmentI18n findOne(ConnectionInterface $con = null) Return the first ChildInseeGeoDepartmentI18n matching the query
  * @method     ChildInseeGeoDepartmentI18n findOneOrCreate(ConnectionInterface $con = null) Return the first ChildInseeGeoDepartmentI18n matching the query, or a new ChildInseeGeoDepartmentI18n object populated from the query conditions when no match is found
  *
- * @method     ChildInseeGeoDepartmentI18n findOneById(string $id) Return the first ChildInseeGeoDepartmentI18n filtered by the id column
+ * @method     ChildInseeGeoDepartmentI18n findOneById(int $id) Return the first ChildInseeGeoDepartmentI18n filtered by the id column
  * @method     ChildInseeGeoDepartmentI18n findOneByLocale(string $locale) Return the first ChildInseeGeoDepartmentI18n filtered by the locale column
  * @method     ChildInseeGeoDepartmentI18n findOneByName(string $name) Return the first ChildInseeGeoDepartmentI18n filtered by the name column
  *
- * @method     array findById(string $id) Return ChildInseeGeoDepartmentI18n objects filtered by the id column
+ * @method     array findById(int $id) Return ChildInseeGeoDepartmentI18n objects filtered by the id column
  * @method     array findByLocale(string $locale) Return ChildInseeGeoDepartmentI18n objects filtered by the locale column
  * @method     array findByName(string $name) Return ChildInseeGeoDepartmentI18n objects filtered by the name column
  *
@@ -138,7 +138,7 @@ abstract class InseeGeoDepartmentI18nQuery extends ModelCriteria
         $sql = 'SELECT ID, LOCALE, NAME FROM insee_geo_department_i18n WHERE ID = :p0 AND LOCALE = :p1';
         try {
             $stmt = $con->prepare($sql);
-            $stmt->bindValue(':p0', $key[0], PDO::PARAM_STR);
+            $stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);
             $stmt->bindValue(':p1', $key[1], PDO::PARAM_STR);
             $stmt->execute();
         } catch (Exception $e) {
@@ -241,24 +241,38 @@ abstract class InseeGeoDepartmentI18nQuery extends ModelCriteria
      *
      * Example usage:
      * <code>
-     * $query->filterById('fooValue');   // WHERE id = 'fooValue'
-     * $query->filterById('%fooValue%'); // WHERE id LIKE '%fooValue%'
+     * $query->filterById(1234); // WHERE id = 1234
+     * $query->filterById(array(12, 34)); // WHERE id IN (12, 34)
+     * $query->filterById(array('min' => 12)); // WHERE id > 12
      * </code>
      *
-     * @param     string $id The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
+     * @see       filterByInseeGeoDepartment()
+     *
+     * @param     mixed $id The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildInseeGeoDepartmentI18nQuery The current query, for fluid interface
      */
     public function filterById($id = null, $comparison = null)
     {
-        if (null === $comparison) {
-            if (is_array($id)) {
+        if (is_array($id)) {
+            $useMinMax = false;
+            if (isset($id['min'])) {
+                $this->addUsingAlias(InseeGeoDepartmentI18nTableMap::ID, $id['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($id['max'])) {
+                $this->addUsingAlias(InseeGeoDepartmentI18nTableMap::ID, $id['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $id)) {
-                $id = str_replace('*', '%', $id);
-                $comparison = Criteria::LIKE;
             }
         }
 
