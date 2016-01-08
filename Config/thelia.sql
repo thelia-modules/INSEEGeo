@@ -28,6 +28,7 @@ CREATE TABLE `insee_geo_department`
 (
     `id` INTEGER NOT NULL,
     `insee_code` VARCHAR(5) NOT NULL,
+    `position` INTEGER NOT NULL,
     `main_municipality_id` VARCHAR(5),
     `region_id` INTEGER,
     `geo_point2d_x` DOUBLE,
