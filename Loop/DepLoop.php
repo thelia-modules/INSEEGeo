@@ -50,21 +50,23 @@ class DepLoop extends BaseI18nLoop implements PropelSearchLoopInterface
             }
             $search->filterById($ids);
         }
+        $search->orderByPosition();
 
         return $search;
     }
 
     public function parseResults(LoopResult $loopResult)
     {
-        /** @var \INSEEGeo\Model\InseeGeoRegion $inseeGeoRegion */
-        foreach ($loopResult->getResultDataCollection() as $inseeGeoRegion) {
-            $loopResultRow = new LoopResultRow($inseeGeoRegion);
+        /** @var \INSEEGeo\Model\InseeGeoDepartment $inseeGeoDep */
+        foreach ($loopResult->getResultDataCollection() as $inseeGeoDep) {
+            $loopResultRow = new LoopResultRow($inseeGeoDep);
 
             $loopResultRow
-                ->set('ID', $inseeGeoRegion->getId())
-                ->set('NAME', $inseeGeoRegion->getVirtualColumn('i18n_name'))
-                ->set('CREATED_AT', $inseeGeoRegion->getCreatedAt())
-                ->set('UPDATED_AT', $inseeGeoRegion->getUpdatedAt())
+                ->set('ID', $inseeGeoDep->getId())
+                ->set('INSEE_CODE', $inseeGeoDep->getInseeCode())
+                ->set('NAME', $inseeGeoDep->getVirtualColumn('i18n_name'))
+                ->set('CREATED_AT', $inseeGeoDep->getCreatedAt())
+                ->set('UPDATED_AT', $inseeGeoDep->getUpdatedAt())
             ;
 
             $loopResult->addRow($loopResultRow);
