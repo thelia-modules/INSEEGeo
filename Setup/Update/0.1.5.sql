@@ -3,9 +3,27 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- Department
 TRUNCATE TABLE `insee_geo_department`;
 
-ALTER TABLE `insee_geo_department`
-ADD `position` INTEGER NOT NULL
-AFTER `insee_code`;
+-- Check if the column is already in the table. If not, create it.
+-- Use `|` instead of `;` for the procedure, Thelia will replace them by `;` (Thelia/Install/Database.php:128)
+CREATE PROCEDURE addPositionColumn()
+  BEGIN
+    IF NOT EXISTS(
+        SELECT *
+        FROM information_schema.COLUMNS
+        WHERE COLUMN_NAME = 'position'
+              AND TABLE_NAME = 'insee_geo_department'
+              AND TABLE_SCHEMA = DATABASE()
+    )
+    THEN
+      ALTER TABLE `insee_geo_department` ADD COLUMN `position` INTEGER NOT NULL
+      AFTER `insee_code`|
+    END IF|
+  END|
+;
+
+CALL addPositionColumn();
+
+DROP PROCEDURE addPositionColumn;
 
 INSERT INTO `insee_geo_department`
 VALUES
