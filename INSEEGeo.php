@@ -84,28 +84,33 @@ class INSEEGeo extends BaseModule
 
         /** @var \Symfony\Component\Finder\SplFileInfo $updateFile */
         foreach ($finder as $updateFile) {
-            $extension = $updateFile->getExtension();
-            if (version_compare($currentVersion, str_replace('.' . $extension, '', $updateFile->getFilename()), '<')) {
-                switch ($extension) {
-                    case 'php':
-                        $logger->info('executing file '.$newVersion . '.php');
-                        include_once($updateFile->getPathname());
-                        $logger->info('end executing file '.$newVersion . '.php');
-                        break;
-                    case 'sql':
-                        $logger->info('executing file ' . $currentVersion . '.sql');
-                        $database->insertSql(
-                            null,
-                            [
-                                $updateFile->getPathname()
-                            ]
-                        );
-                        $logger->info('end executing file ' . $currentVersion . '.sql');
-                        break;
-                    default:
-                        $logger->error('Unknown file type : ' . $extension);
-                        break;
+            try {
+                $extension = $updateFile->getExtension();
+                if (version_compare($currentVersion, str_replace('.' . $extension, '', $updateFile->getFilename()), '<')) {
+                    switch ($extension) {
+                        case 'php':
+                            $logger->info('executing file ' . $newVersion . '.php');
+                            include_once($updateFile->getPathname());
+                            $logger->info('end executing file ' . $newVersion . '.php');
+                            break;
+                        case 'sql':
+                            $logger->info('executing file ' . $currentVersion . '.sql');
+                            $database->insertSql(
+                                null,
+                                [
+                                    $updateFile->getPathname()
+                                ]
+                            );
+                            $logger->info('end executing file ' . $currentVersion . '.sql');
+                            break;
+                        default:
+                            $logger->error('Unknown file type : ' . $extension);
+                            break;
+                    }
                 }
+            } catch(\Exception $e) {
+                $logger->error('Error while executing file ' . $updateFile->getPathname() . ': ' . $e->getMessage());
+                throw $e;
             }
         }
     }
