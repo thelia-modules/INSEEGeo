@@ -1,68 +1,30 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
--- Region
-
-INSERT INTO `insee_geo_region`
-VALUES
-(01, "97105", now(), now()),
-(02, "97209", now(), now()),
-(03, "97302", now(), now()),
-(04, "97411", now(), now()),
-(06, "97608", now(), now()),
-(11, "75056", now(), now()),
-(21, "51108", now(), now()),
-(22, "80021", now(), now()),
-(23, "76540", now(), now()),
-(24, "45234", now(), now()),
-(25, "14118", now(), now()),
-(26, "21231", now(), now()),
-(31, "59350", now(), now()),
-(41, "57463", now(), now()),
-(42, "67482", now(), now()),
-(43, "25056", now(), now()),
-(52, "44109", now(), now()),
-(53, "35238", now(), now()),
-(54, "86194", now(), now()),
-(72, "33063", now(), now()),
-(73, "31555", now(), now()),
-(74, "87085", now(), now()),
-(82, "69123", now(), now()),
-(83, "63113", now(), now()),
-(91, "34172", now(), now()),
-(93, "13055", now(), now()),
-(94, "2A004", now(), now());
-
-INSERT INTO `insee_geo_region_i18n`
-VALUES
-(01,  "fr_FR", "Guadeloupe"),
-(02,  "fr_FR", "Martinique"),
-(03,  "fr_FR", "Guyane"),
-(04,  "fr_FR", "La Réunion"),
-(06,  "fr_FR", "Mayotte"),
-(11,  "fr_FR", "Île-de-France"),
-(21,  "fr_FR", "Champagne-Ardenne"),
-(22,  "fr_FR", "Picardie"),
-(23,  "fr_FR", "Haute-Normandie"),
-(24,  "fr_FR", "Centre"),
-(25,  "fr_FR", "Basse-Normandie"),
-(26,  "fr_FR", "Bourgogne"),
-(31,  "fr_FR", "Nord-Pas-de-Calais"),
-(41,  "fr_FR", "Lorraine"),
-(42,  "fr_FR", "Alsace"),
-(43,  "fr_FR", "Franche-Comté"),
-(52,  "fr_FR", "Pays de la Loire"),
-(53,  "fr_FR", "Bretagne"),
-(54,  "fr_FR", "Poitou-Charentes"),
-(72,  "fr_FR", "Aquitaine"),
-(73,  "fr_FR", "Midi-Pyrénées"),
-(74,  "fr_FR", "Limousin"),
-(82,  "fr_FR", "Rhône-Alpes"),
-(83,  "fr_FR", "Auvergne"),
-(91,  "fr_FR", "Languedoc-Roussillon"),
-(93,  "fr_FR", "Provence-Alpes-Côte d'Azur"),
-(94,  "fr_FR", "Corse");
-
 -- Department
+TRUNCATE TABLE `insee_geo_department`;
+
+-- Check if the column is already in the table. If not, create it.
+-- Use `|` instead of `;` for the procedure, Thelia will replace them by `;` (Thelia/Install/Database.php:128)
+CREATE PROCEDURE addPositionColumn()
+  BEGIN
+    IF NOT EXISTS(
+        SELECT *
+        FROM information_schema.COLUMNS
+        WHERE COLUMN_NAME = 'position'
+              AND TABLE_NAME = 'insee_geo_department'
+              AND TABLE_SCHEMA = DATABASE()
+    )
+    THEN
+      ALTER TABLE `insee_geo_department` ADD COLUMN `position` INTEGER NOT NULL
+      AFTER `insee_code`|
+    END IF|
+  END|
+;
+
+CALL addPositionColumn();
+
+DROP PROCEDURE addPositionColumn;
+
 INSERT INTO `insee_geo_department`
 VALUES
   (01, "01", 1, "01053", 82, 0, 0, "", now(), now()),
@@ -166,109 +128,5 @@ VALUES
   (973, "973", 99,  "97302", 03, 0, 0, "", now(), now()),
   (974, "974", 100,  "97411", 04, 0, 0, "", now(), now()),
   (976, "976", 101,	"97608", 06, 0, 0, "", now(), now());
-
-INSERT INTO `insee_geo_department_i18n`
-VALUES
-  (01, "fr_FR", "Ain"),
-  (02, "fr_FR", "Aisne"),
-  (03, "fr_FR", "Allier"),
-  (04, "fr_FR", "Alpes-de-Haute-Provence"),
-  (05, "fr_FR", "Hautes-Alpes"),
-  (06, "fr_FR", "Alpes-Maritimes"),
-  (07, "fr_FR", "Ardèche"),
-  (08, "fr_FR", "Ardennes"),
-  (09, "fr_FR", "Ariège"),
-  (10, "fr_FR", "Aube"),
-  (11, "fr_FR", "Aude"),
-  (12, "fr_FR", "Aveyron"),
-  (13, "fr_FR", "Bouches-du-Rhône"),
-  (14, "fr_FR", "Calvados"),
-  (15, "fr_FR", "Cantal"),
-  (16, "fr_FR", "Charente"),
-  (17, "fr_FR", "Charente-Maritime"),
-  (18, "fr_FR", "Cher"),
-  (19, "fr_FR", "Corrèze"),
-  (201, "fr_FR", "Corse-du-Sud"),
-  (202, "fr_FR", "Haute-Corse"),
-  (21, "fr_FR", "Côte-d'Or"),
-  (22, "fr_FR", "Côtes-d'Armor"),
-  (23, "fr_FR", "Creuse"),
-  (24, "fr_FR", "Dordogne"),
-  (25, "fr_FR", "Doubs"),
-  (26, "fr_FR", "Drôme"),
-  (27, "fr_FR", "Eure"),
-  (28, "fr_FR", "Eure-et-Loir"),
-  (29, "fr_FR", "Finistère"),
-  (30, "fr_FR", "Gard"),
-  (31, "fr_FR", "Haute-Garonne"),
-  (32, "fr_FR", "Gers"),
-  (33, "fr_FR", "Gironde"),
-  (34, "fr_FR", "Hérault"),
-  (35, "fr_FR", "Ille-et-Vilaine"),
-  (36, "fr_FR", "Indre"),
-  (37, "fr_FR", "Indre-et-Loire"),
-  (38, "fr_FR", "Isère"),
-  (39, "fr_FR", "Jura"),
-  (40, "fr_FR", "Landes"),
-  (41, "fr_FR", "Loir-et-Cher"),
-  (42, "fr_FR", "Loire"),
-  (43, "fr_FR", "Haute-Loire"),
-  (44, "fr_FR", "Loire-Atlantique"),
-  (45, "fr_FR", "Loiret"),
-  (46, "fr_FR", "Lot"),
-  (47, "fr_FR", "Lot-et-Garonne"),
-  (48, "fr_FR", "Lozère"),
-  (49, "fr_FR", "Maine-et-Loire"),
-  (50, "fr_FR", "Manche"),
-  (51, "fr_FR", "Marne"),
-  (52, "fr_FR", "Haute-Marne"),
-  (53, "fr_FR", "Mayenne"),
-  (54, "fr_FR", "Meurthe-et-Moselle"),
-  (55, "fr_FR", "Meuse"),
-  (56, "fr_FR", "Morbihan"),
-  (57, "fr_FR", "Moselle"),
-  (58, "fr_FR", "Nièvre"),
-  (59, "fr_FR", "Nord"),
-  (60, "fr_FR", "Oise"),
-  (61, "fr_FR", "Orne"),
-  (62, "fr_FR", "Pas-de-Calais"),
-  (63, "fr_FR", "Puy-de-Dôme"),
-  (64, "fr_FR", "Pyrénées-Atlantiques"),
-  (65, "fr_FR", "Hautes-Pyrénées"),
-  (66, "fr_FR", "Pyrénées-Orientales"),
-  (67, "fr_FR", "Bas-Rhin"),
-  (68, "fr_FR", "Haut-Rhin"),
-  (69, "fr_FR", "Rhône"),
-  (70, "fr_FR", "Haute-Saône"),
-  (71, "fr_FR", "Saône-et-Loire"),
-  (72, "fr_FR", "Sarthe"),
-  (73, "fr_FR", "Savoie"),
-  (74, "fr_FR", "Haute-Savoie"),
-  (75, "fr_FR", "Paris"),
-  (76, "fr_FR", "Seine-Maritime"),
-  (77, "fr_FR", "Seine-et-Marne"),
-  (78, "fr_FR", "Yvelines"),
-  (79, "fr_FR", "Deux-Sèvres"),
-  (80, "fr_FR", "Somme"),
-  (81, "fr_FR", "Tarn"),
-  (82, "fr_FR", "Tarn-et-Garonne"),
-  (83, "fr_FR", "Var"),
-  (84, "fr_FR", "Vaucluse"),
-  (85, "fr_FR", "Vendée"),
-  (86, "fr_FR", "Vienne"),
-  (87, "fr_FR", "Haute-Vienne"),
-  (88, "fr_FR", "Vosges"),
-  (89, "fr_FR", "Yonne"),
-  (90, "fr_FR", "Territoire de Belfort"),
-  (91, "fr_FR", "Essonne"),
-  (92, "fr_FR", "Hauts-de-Seine"),
-  (93, "fr_FR", "Seine-Saint-Denis"),
-  (94, "fr_FR", "Val-de-Marne"),
-  (95, "fr_FR", "Val-d'Oise"),
-  (971, "fr_FR", "Guadeloupe"),
-  (972, "fr_FR", "Martinique"),
-  (973, "fr_FR", "Guyane"),
-  (974, "fr_FR", "La Réunion"),
-  (976, "fr_FR", "Mayotte");
 
 SET FOREIGN_KEY_CHECKS = 1;

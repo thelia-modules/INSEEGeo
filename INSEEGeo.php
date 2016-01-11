@@ -77,32 +77,41 @@ class INSEEGeo extends BaseModule
         $setupDir = __DIR__ . DS . 'Setup' . DS . 'Update';
         $finder = (new Finder)
             ->files()
-            ->name('#.*?\.sql#')
+            ->name('#.*?\.*#')
             ->in($setupDir);
 
         $database = new Database($con);
 
-        /** @var \Symfony\Component\Finder\SplFileInfo $updateSQLFile */
-        foreach ($finder as $updateSQLFile) {
-            if (version_compare($currentVersion, str_replace('.sql', '', $updateSQLFile->getFilename()), '<')) {
-                $logger->info('executing file '.$currentVersion . '.sql');
-                $database->insertSql(
-                    null,
-                    [
-                        $updateSQLFile->getPathname()
-                    ]
-                );
-                $logger->info('end executing file '.$currentVersion . '.sql');
+        /** @var \Symfony\Component\Finder\SplFileInfo $updateFile */
+        foreach ($finder as $updateFile) {
+            try {
+                $extension = $updateFile->getExtension();
+                if (version_compare($currentVersion, str_replace('.' . $extension, '', $updateFile->getFilename()), '<')) {
+                    switch ($extension) {
+                        case 'php':
+                            $logger->info('executing file ' . $newVersion . '.php');
+                            include_once($updateFile->getPathname());
+                            $logger->info('end executing file ' . $newVersion . '.php');
+                            break;
+                        case 'sql':
+                            $logger->info('executing file ' . $currentVersion . '.sql');
+                            $database->insertSql(
+                                null,
+                                [
+                                    $updateFile->getPathname()
+                                ]
+                            );
+                            $logger->info('end executing file ' . $currentVersion . '.sql');
+                            break;
+                        default:
+                            $logger->error('Unknown file type : ' . $extension);
+                            break;
+                    }
+                }
+            } catch(\Exception $e) {
+                $logger->error('Error while executing file ' . $updateFile->getPathname() . ': ' . $e->getMessage());
+                throw $e;
             }
-        }
-
-        // php update
-        $filename = $setupDir . DS . $newVersion . '.php';
-
-        if (file_exists($filename)) {
-            $logger->info('executing file '.$newVersion . '.php');
-            include_once($filename);
-            $logger->info('end executing file '.$newVersion . '.php');
         }
     }
 
