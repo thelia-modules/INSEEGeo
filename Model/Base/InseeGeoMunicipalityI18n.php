@@ -55,7 +55,7 @@ abstract class InseeGeoMunicipalityI18n implements ActiveRecordInterface
 
     /**
      * The value for the id field.
-     * @var        string
+     * @var        int
      */
     protected $id;
 
@@ -359,7 +359,7 @@ abstract class InseeGeoMunicipalityI18n implements ActiveRecordInterface
     /**
      * Get the [id] column value.
      *
-     * @return   string
+     * @return   int
      */
     public function getId()
     {
@@ -392,13 +392,13 @@ abstract class InseeGeoMunicipalityI18n implements ActiveRecordInterface
     /**
      * Set the value of [id] column.
      *
-     * @param      string $v new value
+     * @param      int $v new value
      * @return   \INSEEGeo\Model\InseeGeoMunicipalityI18n The current object (for fluent API support)
      */
     public function setId($v)
     {
         if ($v !== null) {
-            $v = (string) $v;
+            $v = (int) $v;
         }
 
         if ($this->id !== $v) {
@@ -498,7 +498,7 @@ abstract class InseeGeoMunicipalityI18n implements ActiveRecordInterface
 
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : InseeGeoMunicipalityI18nTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->id = (null !== $col) ? (string) $col : null;
+            $this->id = (null !== $col) ? (int) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : InseeGeoMunicipalityI18nTableMap::translateFieldName('Locale', TableMap::TYPE_PHPNAME, $indexType)];
             $this->locale = (null !== $col) ? (string) $col : null;
@@ -755,7 +755,7 @@ abstract class InseeGeoMunicipalityI18n implements ActiveRecordInterface
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
                     case 'ID':
-                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_STR);
+                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
                     case 'LOCALE':
                         $stmt->bindValue($identifier, $this->locale, PDO::PARAM_STR);
@@ -1090,7 +1090,7 @@ abstract class InseeGeoMunicipalityI18n implements ActiveRecordInterface
      */
     public function getInseeGeoMunicipality(ConnectionInterface $con = null)
     {
-        if ($this->aInseeGeoMunicipality === null && (($this->id !== "" && $this->id !== null))) {
+        if ($this->aInseeGeoMunicipality === null && ($this->id !== null)) {
             $this->aInseeGeoMunicipality = ChildInseeGeoMunicipalityQuery::create()->findPk($this->id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
