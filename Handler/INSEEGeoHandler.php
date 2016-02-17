@@ -12,6 +12,7 @@
 
 namespace INSEEGeo\Handler;
 
+use INSEEGeo\Model\InseeGeoDepartmentQuery;
 use INSEEGeo\Model\InseeGeoMunicipalityQuery;
 
 /**
@@ -59,6 +60,16 @@ class INSEEGeoHandler
             ->filterByName("*".$name."*")
             ->endUse();
         return $query->findByZipCode($zipcode);
+    }
+
+    public function getDepartmentForZipCode($zipCode)
+    {
+        $query = InseeGeoDepartmentQuery::create();
+        $query->useInseeGeoMunicipalityQuery()
+            ->filterByZipCode($zipCode)
+            ->endUse();
+
+        return $query->findOne();
     }
 
 }
