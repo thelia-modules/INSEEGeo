@@ -23,6 +23,7 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  * @method     ChildInseeGeoMunicipalityQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method     ChildInseeGeoMunicipalityQuery orderByInseeCode($order = Criteria::ASC) Order by the insee_code column
  * @method     ChildInseeGeoMunicipalityQuery orderByZipCode($order = Criteria::ASC) Order by the zip_code column
  * @method     ChildInseeGeoMunicipalityQuery orderByGeoPoint2dX($order = Criteria::ASC) Order by the geo_point2d_x column
  * @method     ChildInseeGeoMunicipalityQuery orderByGeoPoint2dY($order = Criteria::ASC) Order by the geo_point2d_y column
@@ -35,6 +36,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildInseeGeoMunicipalityQuery orderByUpdatedAt($order = Criteria::ASC) Order by the updated_at column
  *
  * @method     ChildInseeGeoMunicipalityQuery groupById() Group by the id column
+ * @method     ChildInseeGeoMunicipalityQuery groupByInseeCode() Group by the insee_code column
  * @method     ChildInseeGeoMunicipalityQuery groupByZipCode() Group by the zip_code column
  * @method     ChildInseeGeoMunicipalityQuery groupByGeoPoint2dX() Group by the geo_point2d_x column
  * @method     ChildInseeGeoMunicipalityQuery groupByGeoPoint2dY() Group by the geo_point2d_y column
@@ -65,7 +67,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildInseeGeoMunicipality findOne(ConnectionInterface $con = null) Return the first ChildInseeGeoMunicipality matching the query
  * @method     ChildInseeGeoMunicipality findOneOrCreate(ConnectionInterface $con = null) Return the first ChildInseeGeoMunicipality matching the query, or a new ChildInseeGeoMunicipality object populated from the query conditions when no match is found
  *
- * @method     ChildInseeGeoMunicipality findOneById(string $id) Return the first ChildInseeGeoMunicipality filtered by the id column
+ * @method     ChildInseeGeoMunicipality findOneById(int $id) Return the first ChildInseeGeoMunicipality filtered by the id column
+ * @method     ChildInseeGeoMunicipality findOneByInseeCode(string $insee_code) Return the first ChildInseeGeoMunicipality filtered by the insee_code column
  * @method     ChildInseeGeoMunicipality findOneByZipCode(string $zip_code) Return the first ChildInseeGeoMunicipality filtered by the zip_code column
  * @method     ChildInseeGeoMunicipality findOneByGeoPoint2dX(double $geo_point2d_x) Return the first ChildInseeGeoMunicipality filtered by the geo_point2d_x column
  * @method     ChildInseeGeoMunicipality findOneByGeoPoint2dY(double $geo_point2d_y) Return the first ChildInseeGeoMunicipality filtered by the geo_point2d_y column
@@ -77,7 +80,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildInseeGeoMunicipality findOneByCreatedAt(string $created_at) Return the first ChildInseeGeoMunicipality filtered by the created_at column
  * @method     ChildInseeGeoMunicipality findOneByUpdatedAt(string $updated_at) Return the first ChildInseeGeoMunicipality filtered by the updated_at column
  *
- * @method     array findById(string $id) Return ChildInseeGeoMunicipality objects filtered by the id column
+ * @method     array findById(int $id) Return ChildInseeGeoMunicipality objects filtered by the id column
+ * @method     array findByInseeCode(string $insee_code) Return ChildInseeGeoMunicipality objects filtered by the insee_code column
  * @method     array findByZipCode(string $zip_code) Return ChildInseeGeoMunicipality objects filtered by the zip_code column
  * @method     array findByGeoPoint2dX(double $geo_point2d_x) Return ChildInseeGeoMunicipality objects filtered by the geo_point2d_x column
  * @method     array findByGeoPoint2dY(double $geo_point2d_y) Return ChildInseeGeoMunicipality objects filtered by the geo_point2d_y column
@@ -176,10 +180,10 @@ abstract class InseeGeoMunicipalityQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, ZIP_CODE, GEO_POINT2D_X, GEO_POINT2D_Y, GEO_SHAPE, MUNICIPALITY_CODE, DISTRICT_CODE, DEPARTMENT_ID, REGION_ID, CREATED_AT, UPDATED_AT FROM insee_geo_municipality WHERE ID = :p0';
+        $sql = 'SELECT ID, INSEE_CODE, ZIP_CODE, GEO_POINT2D_X, GEO_POINT2D_Y, GEO_SHAPE, MUNICIPALITY_CODE, DISTRICT_CODE, DEPARTMENT_ID, REGION_ID, CREATED_AT, UPDATED_AT FROM insee_geo_municipality WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);
-            $stmt->bindValue(':p0', $key, PDO::PARAM_STR);
+            $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
             Propel::log($e->getMessage(), Propel::LOG_ERR);
@@ -270,28 +274,69 @@ abstract class InseeGeoMunicipalityQuery extends ModelCriteria
      *
      * Example usage:
      * <code>
-     * $query->filterById('fooValue');   // WHERE id = 'fooValue'
-     * $query->filterById('%fooValue%'); // WHERE id LIKE '%fooValue%'
+     * $query->filterById(1234); // WHERE id = 1234
+     * $query->filterById(array(12, 34)); // WHERE id IN (12, 34)
+     * $query->filterById(array('min' => 12)); // WHERE id > 12
      * </code>
      *
-     * @param     string $id The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     mixed $id The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildInseeGeoMunicipalityQuery The current query, for fluid interface
      */
     public function filterById($id = null, $comparison = null)
     {
-        if (null === $comparison) {
-            if (is_array($id)) {
+        if (is_array($id)) {
+            $useMinMax = false;
+            if (isset($id['min'])) {
+                $this->addUsingAlias(InseeGeoMunicipalityTableMap::ID, $id['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($id['max'])) {
+                $this->addUsingAlias(InseeGeoMunicipalityTableMap::ID, $id['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $id)) {
-                $id = str_replace('*', '%', $id);
-                $comparison = Criteria::LIKE;
             }
         }
 
         return $this->addUsingAlias(InseeGeoMunicipalityTableMap::ID, $id, $comparison);
+    }
+
+    /**
+     * Filter the query on the insee_code column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByInseeCode('fooValue');   // WHERE insee_code = 'fooValue'
+     * $query->filterByInseeCode('%fooValue%'); // WHERE insee_code LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $inseeCode The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildInseeGeoMunicipalityQuery The current query, for fluid interface
+     */
+    public function filterByInseeCode($inseeCode = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($inseeCode)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $inseeCode)) {
+                $inseeCode = str_replace('*', '%', $inseeCode);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(InseeGeoMunicipalityTableMap::INSEE_CODE, $inseeCode, $comparison);
     }
 
     /**

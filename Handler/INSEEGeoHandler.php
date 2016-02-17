@@ -12,6 +12,7 @@
 
 namespace INSEEGeo\Handler;
 
+use INSEEGeo\Model\InseeGeoDepartmentQuery;
 use INSEEGeo\Model\InseeGeoMunicipalityQuery;
 
 /**
@@ -59,6 +60,36 @@ class INSEEGeoHandler
             ->filterByName("*".$name."*")
             ->endUse();
         return $query->findByZipCode($zipcode);
+    }
+
+    /**
+     * @param $zipCode
+     *
+     * @return \INSEEGeo\Model\InseeGeoDepartment
+     */
+    public function getDepartmentForZipCode($zipCode)
+    {
+        $query = InseeGeoDepartmentQuery::create();
+        $query->useInseeGeoMunicipalityQuery()
+            ->filterByZipCode($zipCode)
+            ->endUse();
+
+        return $query->findOne();
+    }
+
+    /**
+     * @param $cityId
+     *
+     * @return \INSEEGeo\Model\InseeGeoDepartment
+     */
+    public function getDepartmentForCityId($cityId)
+    {
+        $query = InseeGeoDepartmentQuery::create();
+        $query->useInseeGeoMunicipalityQuery()
+            ->filterByPrimaryKey($cityId)
+            ->endUse();
+
+        return $query->findOne();
     }
 
 }

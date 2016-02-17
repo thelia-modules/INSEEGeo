@@ -53,7 +53,8 @@ DROP TABLE IF EXISTS `insee_geo_municipality`;
 
 CREATE TABLE `insee_geo_municipality`
 (
-    `id` VARCHAR(5) NOT NULL,
+    `id` INTEGER NOT NULL,
+    `insee_code` VARCHAR(5),
     `zip_code` VARCHAR(5),
     `geo_point2d_x` DOUBLE,
     `geo_point2d_y` DOUBLE,
@@ -65,6 +66,8 @@ CREATE TABLE `insee_geo_municipality`
     `created_at` DATETIME,
     `updated_at` DATETIME,
     PRIMARY KEY (`id`),
+    INDEX `idx_insee_code` (`insee_code`(5)),
+    INDEX `idx_zip_code` (`zip_code`(5)),
     INDEX `FI_insee_geo_municipality_department_id` (`department_id`),
     INDEX `FI_insee_geo_municipality_region_id` (`region_id`),
     CONSTRAINT `fk_insee_geo_municipality_department_id`
@@ -123,7 +126,7 @@ DROP TABLE IF EXISTS `insee_geo_municipality_i18n`;
 
 CREATE TABLE `insee_geo_municipality_i18n`
 (
-    `id` VARCHAR(5) NOT NULL,
+    `id` INTEGER NOT NULL,
     `locale` VARCHAR(5) DEFAULT 'en_US' NOT NULL,
     `name` TEXT,
     PRIMARY KEY (`id`,`locale`),
