@@ -63,9 +63,15 @@ abstract class InseeGeoMunicipality implements ActiveRecordInterface
 
     /**
      * The value for the id field.
-     * @var        string
+     * @var        int
      */
     protected $id;
+
+    /**
+     * The value for the insee_code field.
+     * @var        string
+     */
+    protected $insee_code;
 
     /**
      * The value for the zip_code field.
@@ -432,12 +438,23 @@ abstract class InseeGeoMunicipality implements ActiveRecordInterface
     /**
      * Get the [id] column value.
      *
-     * @return   string
+     * @return   int
      */
     public function getId()
     {
 
         return $this->id;
+    }
+
+    /**
+     * Get the [insee_code] column value.
+     *
+     * @return   string
+     */
+    public function getInseeCode()
+    {
+
+        return $this->insee_code;
     }
 
     /**
@@ -571,13 +588,13 @@ abstract class InseeGeoMunicipality implements ActiveRecordInterface
     /**
      * Set the value of [id] column.
      *
-     * @param      string $v new value
+     * @param      int $v new value
      * @return   \INSEEGeo\Model\InseeGeoMunicipality The current object (for fluent API support)
      */
     public function setId($v)
     {
         if ($v !== null) {
-            $v = (string) $v;
+            $v = (int) $v;
         }
 
         if ($this->id !== $v) {
@@ -588,6 +605,27 @@ abstract class InseeGeoMunicipality implements ActiveRecordInterface
 
         return $this;
     } // setId()
+
+    /**
+     * Set the value of [insee_code] column.
+     *
+     * @param      string $v new value
+     * @return   \INSEEGeo\Model\InseeGeoMunicipality The current object (for fluent API support)
+     */
+    public function setInseeCode($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->insee_code !== $v) {
+            $this->insee_code = $v;
+            $this->modifiedColumns[InseeGeoMunicipalityTableMap::INSEE_CODE] = true;
+        }
+
+
+        return $this;
+    } // setInseeCode()
 
     /**
      * Set the value of [zip_code] column.
@@ -845,39 +883,42 @@ abstract class InseeGeoMunicipality implements ActiveRecordInterface
 
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : InseeGeoMunicipalityTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->id = (null !== $col) ? (string) $col : null;
+            $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : InseeGeoMunicipalityTableMap::translateFieldName('ZipCode', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : InseeGeoMunicipalityTableMap::translateFieldName('InseeCode', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->insee_code = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : InseeGeoMunicipalityTableMap::translateFieldName('ZipCode', TableMap::TYPE_PHPNAME, $indexType)];
             $this->zip_code = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : InseeGeoMunicipalityTableMap::translateFieldName('GeoPoint2dX', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : InseeGeoMunicipalityTableMap::translateFieldName('GeoPoint2dX', TableMap::TYPE_PHPNAME, $indexType)];
             $this->geo_point2d_x = (null !== $col) ? (double) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : InseeGeoMunicipalityTableMap::translateFieldName('GeoPoint2dY', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : InseeGeoMunicipalityTableMap::translateFieldName('GeoPoint2dY', TableMap::TYPE_PHPNAME, $indexType)];
             $this->geo_point2d_y = (null !== $col) ? (double) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : InseeGeoMunicipalityTableMap::translateFieldName('GeoShape', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : InseeGeoMunicipalityTableMap::translateFieldName('GeoShape', TableMap::TYPE_PHPNAME, $indexType)];
             $this->geo_shape = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : InseeGeoMunicipalityTableMap::translateFieldName('MunicipalityCode', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : InseeGeoMunicipalityTableMap::translateFieldName('MunicipalityCode', TableMap::TYPE_PHPNAME, $indexType)];
             $this->municipality_code = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : InseeGeoMunicipalityTableMap::translateFieldName('DistrictCode', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : InseeGeoMunicipalityTableMap::translateFieldName('DistrictCode', TableMap::TYPE_PHPNAME, $indexType)];
             $this->district_code = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : InseeGeoMunicipalityTableMap::translateFieldName('DepartmentId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : InseeGeoMunicipalityTableMap::translateFieldName('DepartmentId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->department_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : InseeGeoMunicipalityTableMap::translateFieldName('RegionId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : InseeGeoMunicipalityTableMap::translateFieldName('RegionId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->region_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : InseeGeoMunicipalityTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : InseeGeoMunicipalityTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
             $this->created_at = (null !== $col) ? PropelDateTime::newInstance($col, null, '\DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : InseeGeoMunicipalityTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : InseeGeoMunicipalityTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
@@ -890,7 +931,7 @@ abstract class InseeGeoMunicipality implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 11; // 11 = InseeGeoMunicipalityTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 12; // 12 = InseeGeoMunicipalityTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating \INSEEGeo\Model\InseeGeoMunicipality object", 0, $e);
@@ -1155,6 +1196,9 @@ abstract class InseeGeoMunicipality implements ActiveRecordInterface
         if ($this->isColumnModified(InseeGeoMunicipalityTableMap::ID)) {
             $modifiedColumns[':p' . $index++]  = 'ID';
         }
+        if ($this->isColumnModified(InseeGeoMunicipalityTableMap::INSEE_CODE)) {
+            $modifiedColumns[':p' . $index++]  = 'INSEE_CODE';
+        }
         if ($this->isColumnModified(InseeGeoMunicipalityTableMap::ZIP_CODE)) {
             $modifiedColumns[':p' . $index++]  = 'ZIP_CODE';
         }
@@ -1197,7 +1241,10 @@ abstract class InseeGeoMunicipality implements ActiveRecordInterface
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
                     case 'ID':
-                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_STR);
+                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
+                        break;
+                    case 'INSEE_CODE':
+                        $stmt->bindValue($identifier, $this->insee_code, PDO::PARAM_STR);
                         break;
                     case 'ZIP_CODE':
                         $stmt->bindValue($identifier, $this->zip_code, PDO::PARAM_STR);
@@ -1288,33 +1335,36 @@ abstract class InseeGeoMunicipality implements ActiveRecordInterface
                 return $this->getId();
                 break;
             case 1:
-                return $this->getZipCode();
+                return $this->getInseeCode();
                 break;
             case 2:
-                return $this->getGeoPoint2dX();
+                return $this->getZipCode();
                 break;
             case 3:
-                return $this->getGeoPoint2dY();
+                return $this->getGeoPoint2dX();
                 break;
             case 4:
-                return $this->getGeoShape();
+                return $this->getGeoPoint2dY();
                 break;
             case 5:
-                return $this->getMunicipalityCode();
+                return $this->getGeoShape();
                 break;
             case 6:
-                return $this->getDistrictCode();
+                return $this->getMunicipalityCode();
                 break;
             case 7:
-                return $this->getDepartmentId();
+                return $this->getDistrictCode();
                 break;
             case 8:
-                return $this->getRegionId();
+                return $this->getDepartmentId();
                 break;
             case 9:
-                return $this->getCreatedAt();
+                return $this->getRegionId();
                 break;
             case 10:
+                return $this->getCreatedAt();
+                break;
+            case 11:
                 return $this->getUpdatedAt();
                 break;
             default:
@@ -1347,16 +1397,17 @@ abstract class InseeGeoMunicipality implements ActiveRecordInterface
         $keys = InseeGeoMunicipalityTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getZipCode(),
-            $keys[2] => $this->getGeoPoint2dX(),
-            $keys[3] => $this->getGeoPoint2dY(),
-            $keys[4] => $this->getGeoShape(),
-            $keys[5] => $this->getMunicipalityCode(),
-            $keys[6] => $this->getDistrictCode(),
-            $keys[7] => $this->getDepartmentId(),
-            $keys[8] => $this->getRegionId(),
-            $keys[9] => $this->getCreatedAt(),
-            $keys[10] => $this->getUpdatedAt(),
+            $keys[1] => $this->getInseeCode(),
+            $keys[2] => $this->getZipCode(),
+            $keys[3] => $this->getGeoPoint2dX(),
+            $keys[4] => $this->getGeoPoint2dY(),
+            $keys[5] => $this->getGeoShape(),
+            $keys[6] => $this->getMunicipalityCode(),
+            $keys[7] => $this->getDistrictCode(),
+            $keys[8] => $this->getDepartmentId(),
+            $keys[9] => $this->getRegionId(),
+            $keys[10] => $this->getCreatedAt(),
+            $keys[11] => $this->getUpdatedAt(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1411,33 +1462,36 @@ abstract class InseeGeoMunicipality implements ActiveRecordInterface
                 $this->setId($value);
                 break;
             case 1:
-                $this->setZipCode($value);
+                $this->setInseeCode($value);
                 break;
             case 2:
-                $this->setGeoPoint2dX($value);
+                $this->setZipCode($value);
                 break;
             case 3:
-                $this->setGeoPoint2dY($value);
+                $this->setGeoPoint2dX($value);
                 break;
             case 4:
-                $this->setGeoShape($value);
+                $this->setGeoPoint2dY($value);
                 break;
             case 5:
-                $this->setMunicipalityCode($value);
+                $this->setGeoShape($value);
                 break;
             case 6:
-                $this->setDistrictCode($value);
+                $this->setMunicipalityCode($value);
                 break;
             case 7:
-                $this->setDepartmentId($value);
+                $this->setDistrictCode($value);
                 break;
             case 8:
-                $this->setRegionId($value);
+                $this->setDepartmentId($value);
                 break;
             case 9:
-                $this->setCreatedAt($value);
+                $this->setRegionId($value);
                 break;
             case 10:
+                $this->setCreatedAt($value);
+                break;
+            case 11:
                 $this->setUpdatedAt($value);
                 break;
         } // switch()
@@ -1465,16 +1519,17 @@ abstract class InseeGeoMunicipality implements ActiveRecordInterface
         $keys = InseeGeoMunicipalityTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-        if (array_key_exists($keys[1], $arr)) $this->setZipCode($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setGeoPoint2dX($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setGeoPoint2dY($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setGeoShape($arr[$keys[4]]);
-        if (array_key_exists($keys[5], $arr)) $this->setMunicipalityCode($arr[$keys[5]]);
-        if (array_key_exists($keys[6], $arr)) $this->setDistrictCode($arr[$keys[6]]);
-        if (array_key_exists($keys[7], $arr)) $this->setDepartmentId($arr[$keys[7]]);
-        if (array_key_exists($keys[8], $arr)) $this->setRegionId($arr[$keys[8]]);
-        if (array_key_exists($keys[9], $arr)) $this->setCreatedAt($arr[$keys[9]]);
-        if (array_key_exists($keys[10], $arr)) $this->setUpdatedAt($arr[$keys[10]]);
+        if (array_key_exists($keys[1], $arr)) $this->setInseeCode($arr[$keys[1]]);
+        if (array_key_exists($keys[2], $arr)) $this->setZipCode($arr[$keys[2]]);
+        if (array_key_exists($keys[3], $arr)) $this->setGeoPoint2dX($arr[$keys[3]]);
+        if (array_key_exists($keys[4], $arr)) $this->setGeoPoint2dY($arr[$keys[4]]);
+        if (array_key_exists($keys[5], $arr)) $this->setGeoShape($arr[$keys[5]]);
+        if (array_key_exists($keys[6], $arr)) $this->setMunicipalityCode($arr[$keys[6]]);
+        if (array_key_exists($keys[7], $arr)) $this->setDistrictCode($arr[$keys[7]]);
+        if (array_key_exists($keys[8], $arr)) $this->setDepartmentId($arr[$keys[8]]);
+        if (array_key_exists($keys[9], $arr)) $this->setRegionId($arr[$keys[9]]);
+        if (array_key_exists($keys[10], $arr)) $this->setCreatedAt($arr[$keys[10]]);
+        if (array_key_exists($keys[11], $arr)) $this->setUpdatedAt($arr[$keys[11]]);
     }
 
     /**
@@ -1487,6 +1542,7 @@ abstract class InseeGeoMunicipality implements ActiveRecordInterface
         $criteria = new Criteria(InseeGeoMunicipalityTableMap::DATABASE_NAME);
 
         if ($this->isColumnModified(InseeGeoMunicipalityTableMap::ID)) $criteria->add(InseeGeoMunicipalityTableMap::ID, $this->id);
+        if ($this->isColumnModified(InseeGeoMunicipalityTableMap::INSEE_CODE)) $criteria->add(InseeGeoMunicipalityTableMap::INSEE_CODE, $this->insee_code);
         if ($this->isColumnModified(InseeGeoMunicipalityTableMap::ZIP_CODE)) $criteria->add(InseeGeoMunicipalityTableMap::ZIP_CODE, $this->zip_code);
         if ($this->isColumnModified(InseeGeoMunicipalityTableMap::GEO_POINT2D_X)) $criteria->add(InseeGeoMunicipalityTableMap::GEO_POINT2D_X, $this->geo_point2d_x);
         if ($this->isColumnModified(InseeGeoMunicipalityTableMap::GEO_POINT2D_Y)) $criteria->add(InseeGeoMunicipalityTableMap::GEO_POINT2D_Y, $this->geo_point2d_y);
@@ -1519,7 +1575,7 @@ abstract class InseeGeoMunicipality implements ActiveRecordInterface
 
     /**
      * Returns the primary key for this object (row).
-     * @return   string
+     * @return   int
      */
     public function getPrimaryKey()
     {
@@ -1529,7 +1585,7 @@ abstract class InseeGeoMunicipality implements ActiveRecordInterface
     /**
      * Generic method to set the primary key (id column).
      *
-     * @param       string $key Primary key.
+     * @param       int $key Primary key.
      * @return void
      */
     public function setPrimaryKey($key)
@@ -1561,6 +1617,7 @@ abstract class InseeGeoMunicipality implements ActiveRecordInterface
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
         $copyObj->setId($this->getId());
+        $copyObj->setInseeCode($this->getInseeCode());
         $copyObj->setZipCode($this->getZipCode());
         $copyObj->setGeoPoint2dX($this->getGeoPoint2dX());
         $copyObj->setGeoPoint2dY($this->getGeoPoint2dY());
@@ -1961,6 +2018,7 @@ abstract class InseeGeoMunicipality implements ActiveRecordInterface
     public function clear()
     {
         $this->id = null;
+        $this->insee_code = null;
         $this->zip_code = null;
         $this->geo_point2d_x = null;
         $this->geo_point2d_y = null;

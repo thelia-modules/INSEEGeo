@@ -136,7 +136,7 @@ class InseeGeoMunicipalityI18nTableMap extends TableMap
         $this->setPackage('INSEEGeo.Model');
         $this->setUseIdGenerator(false);
         // columns
-        $this->addForeignPrimaryKey('ID', 'Id', 'VARCHAR' , 'insee_geo_municipality', 'ID', true, 5, null);
+        $this->addForeignPrimaryKey('ID', 'Id', 'INTEGER' , 'insee_geo_municipality', 'ID', true, null, null);
         $this->addPrimaryKey('LOCALE', 'Locale', 'VARCHAR', true, 5, 'en_US');
         $this->addColumn('NAME', 'Name', 'LONGVARCHAR', false, null, null);
     } // initialize()

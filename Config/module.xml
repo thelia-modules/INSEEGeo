@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://thelia.net/schema/dic/module http://thelia.net/schema/dic/module/module-2_1.xsd">
     <fullnamespace>INSEEGeo\INSEEGeo</fullnamespace>
     <descriptive locale="en_US">
-        <title>Automatically generated module - please update module.xml file</title>
+        <title>Database tables for french municipalities, departments and regions, from INSEE's data</title>
     </descriptive>
     <descriptive locale="fr_FR">
         <title>Listing des villes, département et région de France, suivant les données INSEE</title>
@@ -13,7 +13,7 @@
         <language>en_US</language>
         <language>fr_FR</language>
     </languages>
-    <version>0.1.5</version>
+    <version>0.1.6</version>
     <author>
         <name>David Gros</name>
         <email>dgros@openstudio.fr</email>
