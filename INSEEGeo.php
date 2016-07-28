@@ -16,6 +16,7 @@ use INSEEGeo\Model\Base\InseeGeoMunicipalityQuery;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
 use Symfony\Component\Finder\Finder;
+use Thelia\Core\Template\TemplateDefinition;
 use Thelia\Install\Database;
 use Thelia\Log\Tlog;
 use Thelia\Module\BaseModule;
@@ -60,19 +61,35 @@ class INSEEGeo extends BaseModule
         }
     }
 
-    const PHP_DIR = 'Setup/Update/';
+    public function getHooks()
+    {
+        return [
+            [
+                'type' => TemplateDefinition::FRONT_OFFICE,
+                'code' => 'insee_geo.front.insert_select_city',
+                'title' => "Insert form type SelectCity, to select city and zip code",
+                'active' => true,
+                'block' => false,
+                'module' => false
+            ],
+            [
+                'type' => TemplateDefinition::FRONT_OFFICE,
+                'code' => 'insee_geo.javascript_initialization_front.insert_select_city',
+                'title' => "Insert javascript form type SelectCity.",
+                'active' => true,
+                'block' => false,
+                'module' => false,
+            ]
+        ];
+    }
 
     /**
-     * Update method to execute sql script. Script must be in Config\Update
-     *
-     * @param string              $currentVersion
-     * @param string              $newVersion
-     * @param ConnectionInterface $con
+     * @inheritdoc
      */
-    public function update($currentVersion, $newVersion, ConnectionInterface $con)
+    public function update($currentVersion, $newVersion, ConnectionInterface $con = null)
     {
         $logger = Tlog::getInstance();
-        /** @var string $moduleDir Need for include_once php file*/
+        /** @var string $moduleDir Need for include_once php file */
         $moduleDir = __DIR__;
         $setupDir = __DIR__ . DS . 'Setup' . DS . 'Update';
         $finder = (new Finder)
@@ -86,7 +103,8 @@ class INSEEGeo extends BaseModule
         foreach ($finder as $updateFile) {
             try {
                 $extension = $updateFile->getExtension();
-                if (version_compare($currentVersion, str_replace('.' . $extension, '', $updateFile->getFilename()), '<')) {
+                if (version_compare($currentVersion, str_replace('.' . $extension, '', $updateFile->getFilename()),
+                    '<')) {
                     switch ($extension) {
                         case 'php':
                             $logger->info('executing file ' . $newVersion . '.php');
@@ -108,7 +126,7 @@ class INSEEGeo extends BaseModule
                             break;
                     }
                 }
-            } catch(\Exception $e) {
+            } catch (\Exception $e) {
                 $logger->error('Error while executing file ' . $updateFile->getPathname() . ': ' . $e->getMessage());
                 throw $e;
             }
